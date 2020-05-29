@@ -1,8 +1,10 @@
 package main
 
 import (
+	"fmt"
 	"html/template"
 	"net/http"
+	"os"
 	// "github.com/labstack/echo"
 )
 
@@ -29,5 +31,14 @@ func main() {
 		}
 		tmpl.Execute(w, data)
 	})
-	http.ListenAndServe(":80", nil)
+	http.ListenAndServe(getPort(), nil)
+}
+
+func getPort() string {
+	var port = os.Getenv("PORT")
+	if port == "" {
+		port = "8080"
+		fmt.Println("No Port In Heroku" + port)
+	}
+	return ":" + port
 }
